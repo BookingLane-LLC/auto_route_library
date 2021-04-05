@@ -279,24 +279,25 @@ class RouterClassGenerator {
 
   void _generateRouteBuilder(RouteConfig r, String constructor) {
     final returnType = r.returnType ?? 'dynamic';
+    _write('final page = $constructor;');
     if (r.routeType == RouteType.cupertino) {
       _write(
-          'return CupertinoPageRoute<$returnType>(builder: (context) => $constructor, settings: data,');
+          'return CupertinoPageRoute<$returnType>(builder: (context) => page, settings: data,');
       if (r.cupertinoNavTitle != null) {
         _write("title:'${r.cupertinoNavTitle}',");
       }
     } else if (r.routeType == RouteType.material) {
       _write(
-          'return MaterialPageRoute<$returnType>(builder: (context) => $constructor, settings: data,');
+          'return MaterialPageRoute<$returnType>(builder: (context) => page, settings: data,');
     } else if (r.routeType == RouteType.adaptive) {
       _write(
-          'return buildAdaptivePageRoute<$returnType>(builder: (context) => $constructor, settings: data,');
+          'return buildAdaptivePageRoute<$returnType>(builder: (context) => page, settings: data,');
       if (r.cupertinoNavTitle != null) {
         _write("cupertinoTitle:'${r.cupertinoNavTitle}',");
       }
     } else {
       _write(
-          'return PageRouteBuilder<$returnType>(pageBuilder: (context, animation, secondaryAnimation) => $constructor, settings: data,');
+          'return PageRouteBuilder<$returnType>(pageBuilder: (context, animation, secondaryAnimation) => page, settings: data,');
 
       if (r.customRouteOpaque != null) {
         _write('opaque:${r.customRouteOpaque.toString()},');
